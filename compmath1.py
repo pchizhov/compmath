@@ -1,4 +1,4 @@
-EPSILON = 0.001
+EPSILON = 0.0000001
 
 
 def solve_with_gauss(a, b):
@@ -21,14 +21,15 @@ def solve_with_gauss(a, b):
 def solve_with_jacobi(a, b):
     matrix = [[- a[i][j] / a[i][i] for j in range(len(a))] for i in range(len(a))]
     remainder = [b[i] / a[i][i] for i in range(len(a))]
-    return jacobi_iterate(matrix, remainder, remainder)
+    return jacobi_iterate(matrix, remainder, remainder, 0)
 
 
-def jacobi_iterate(m, r, x):
+def jacobi_iterate(m, r, x, i):
+    i += 1
     new_x = [sum(m[i][j] * x[j] for j in range(len(m)) if j != i) + r[i] for i in range(len(m))]
     if max(abs(x[i] - new_x[i]) for i in range(len(x))) < EPSILON:
-        return new_x
-    return jacobi_iterate(m, r, new_x)
+        return new_x, i
+    return jacobi_iterate(m, r, new_x, i)
 
 
 if __name__ == "__main__":
@@ -41,7 +42,8 @@ if __name__ == "__main__":
     print("System solution with Gauss method:")
     for n in range(len(gauss_result)):
         print("x" + str(n + 1), "=", gauss_result[n])
-    jacobi_result = solve_with_jacobi(left_part, right_part)
+    jacobi_result, iterations = solve_with_jacobi(left_part, right_part)
     print("System solution with Jacobi method:")
     for n in range(len(jacobi_result)):
         print("x" + str(n + 1), "=", jacobi_result[n])
+    print("Iterations number:", iterations)
