@@ -20,13 +20,13 @@ def euler(n):
 
 
 def runge_kutta(n):
-    _, y_pred = euler(n)
     dist = (B - A) / n
     x = [A + dist * i for i in range(n)]
     y = [0 for _ in range(n)]
     y[0] = Y
     for k in range(n - 1):
-        y[k + 1] = y[k] + (f(x[k], y[k]) + f(x[k + 1], y_pred[k + 1])) * dist / 2
+        y_p = y[k] + f(x[k], y[k]) * dist
+        y[k + 1] = y[k] + (f(x[k], y[k]) + f(x[k + 1], y_p)) * dist / 2
     return x, y
 
 

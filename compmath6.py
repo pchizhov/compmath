@@ -30,7 +30,7 @@ def simpson(h):
     x, y, n = split(h)
     n -= 1
     n //= 2
-    return h / 3 * (y[0] + y[2 * n] + sum(4 * y[2 * i + 1] for i in range(n)) + sum(2 * y[2 * i] for i in range(1, n)))
+    return 2 * h / 3 * (y[0] + y[2 * n] + sum(2 * y[2 * i + 1] for i in range(n)) + sum(y[2 * i] for i in range(1, n)))
 
 
 if __name__ == "__main__":
