@@ -1,5 +1,3 @@
-import math
-from matplotlib import mlab
 import pylab
 
 A = 1
@@ -28,21 +26,19 @@ def runge_kutta(n):
     y = [0 for _ in range(n)]
     y[0] = Y
     for k in range(n - 1):
-        # y[k + 1] = y[k] + f(x[k], y[k]) * dist / 2 + f(x[k + 1], y_pred[k + 1])
-        y[k + 1] = y[k] + dist * f(x[k] + dist / 2, y[k] + dist / 2 * f(x[k], y[k]))
+        y[k + 1] = y[k] + (f(x[k], y[k]) + f(x[k + 1], y_pred[k + 1])) * dist / 2
     return x, y
 
 
-def plot(x, y):
-    pylab.scatter(x, y)
-    pylab.plot(x, y)
+def plot(x1, y1, x2, y2):
+    pylab.scatter(x1, y1)
+    pylab.plot(x1, y1)
+    pylab.scatter(x2, y2)
+    pylab.plot(x2, y2)
     pylab.show()
 
 
 if __name__ == "__main__":
-    x_list, y_list = euler(10)
-    plot(x_list, y_list)
-    print(x_list, y_list)
-    x_list, y_list = runge_kutta(10)
-    plot(x_list, y_list)
-    print(x_list, y_list)
+    x_list1, y_list1 = euler(10)
+    x_list2, y_list2 = runge_kutta(10)
+    plot(x_list1, y_list1, x_list2, y_list2)
